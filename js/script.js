@@ -47,6 +47,38 @@ function Move(value) {
     }
 }
 
+/* Script para consumir API */
+
+async function getDogPhotos() {
+    try {
+      const arrDogPhotos = document.querySelectorAll(".carousel-img");
+      const url =
+        "https://api.thedogapi.com/v1/images/search?format=json&limit=15";
+      const options = {
+        method: "GET",
+        headers: {
+          "x-api-key":
+            "live_RtYC0gBTCLs63KjZptWU0VzGdPIgRJt05yxC3tgeSleJ62WHq2gNzsBsWFxgqcvL",
+          "Content-Type": "application/json",
+        },
+      };
+      let counter = 0;
+      const response = await fetch(url, options);
+      const data = await response.json();
+      data.forEach((dog) => {
+        if (dog.url.slice(-3) !== "gif" && counter < 12) {
+          arrDogPhotos[counter].src = dog.url;
+          counter++;
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+  getDogPhotos();
+  
+
 /*Script para validaciòn de datos del envio del formulario */
 function validar() {
                            
@@ -79,5 +111,3 @@ function validar() {
     alert("Datos enviados con exito!");    
                                     
 }
-                        
-
